@@ -7,7 +7,7 @@ import System.Environment (getArgs, setEnv)
 import Foreign.C.String
 import Foreign.Ptr
 import WLR.Util.Log
-
+import Xkbcommon.Xkbcommon
 
 main :: IO ()
 main = do
