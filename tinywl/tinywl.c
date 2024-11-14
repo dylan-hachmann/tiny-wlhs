@@ -164,42 +164,23 @@ static void keyboard_handle_modifiers(struct wl_listener *listener,
                                      &keyboard->wlr_keyboard->modifiers);
 }
 
-void hs_terminate_display(struct tinywl_server *server) {
+bool hs_terminate_display(struct tinywl_server *server) {
   wl_display_terminate(server->wl_display);
-  return;
+  return true;
 }
 
-void hs_cycle_window_next(struct tinywl_server *server) {
+bool hs_cycle_window_next(struct tinywl_server *server) {
   /* Cycle to the next toplevel */
   if (wl_list_length(&server->toplevels) < 2) {
-    return;
+    return true;
   }
   struct tinywl_toplevel *next_toplevel =
     wl_container_of(server->toplevels.prev, next_toplevel, link);
   focus_toplevel(next_toplevel, next_toplevel->xdg_toplevel->base->surface);
-  return;
-}
-
-static bool handle_keybinding(struct tinywl_server *server, xkb_keysym_t sym) {
-  /*
-   * Here we handle compositor keybindings. This is when the compositor is
-   * processing keys, rather than passing them on to the client for its own
-   * processing.
-   *
-   * This function assumes Alt is held down.
-   */
-  switch (sym) {
-  case XKB_KEY_Escape:
-    hs_terminate_display(server);
-    break;
-  case XKB_KEY_F1:
-    hs_cycle_window_next(server);
-    break;
-  default:
-    return false;
-  }
   return true;
 }
+
+extern bool handle_keybinding(struct tinywl_server *server, xkb_keysym_t sym);
 
 static void keyboard_handle_key(struct wl_listener *listener, void *data) {
   /* This event is raised when a key is pressed or released. */
@@ -857,8 +838,6 @@ bool server_init(struct tinywl_server *server);
 const char *server_start(struct tinywl_server *server);
 void server_run(struct tinywl_server *server);
 void server_set_startup_command(const char *cmd);
-void hs_terminate_display(struct tinywl_server *server);
-void hs_cycle_window_next(struct tinywl_server *server);
 
 // New server functions
 struct tinywl_server *server_create() {
