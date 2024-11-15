@@ -33,6 +33,7 @@ foreign import capi "xkbcommon/xkbcommon-keysyms.h value XKB_KEY_F1" xK_F1 :: CU
 foreign import ccall "hs_terminate_display" terminateDisplay :: Ptr TinyWLServer -> CBool
 foreign import ccall "hs_cycle_window_next" cycleWindowNext :: Ptr TinyWLServer -> CBool
 foreign export ccall "handle_keybinding" handleKeybinding :: Ptr TinyWLServer -> CUInt -> CBool
-handleKeybinding server xK_Escape = terminateDisplay server
-handleKeybinding server xK_F1 = cycleWindowNext server
-handleKeybinding server _ = 0 :: CBool
+handleKeybinding server key = case key of
+                                xK_Escape -> terminateDisplay server
+                                xK_F1 -> cycleWindowNext server
+                                _ -> 0 :: CBool
