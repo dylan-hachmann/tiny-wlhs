@@ -25,6 +25,7 @@
 #include <wlr/types/wlr_xdg_shell.h>
 #include <wlr/util/log.h>
 #include <xkbcommon/xkbcommon.h>
+#include "TinyWL_stub.h"
 
 /* For brevity's sake, struct members are annotated where they are used. */
 enum tinywl_cursor_mode {
@@ -179,8 +180,6 @@ bool hs_cycle_window_next(struct tinywl_server *server) {
   focus_toplevel(next_toplevel, next_toplevel->xdg_toplevel->base->surface);
   return true;
 }
-
-extern bool handle_keybinding(struct tinywl_server *server, xkb_keysym_t sym);
 
 static void keyboard_handle_key(struct wl_listener *listener, void *data) {
   /* This event is raised when a key is pressed or released. */
