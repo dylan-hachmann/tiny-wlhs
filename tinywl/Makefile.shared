@@ -1,3 +1,5 @@
+CC := ghc
+
 WAYLAND_PROTOCOLS=$(shell pkg-config --variable=pkgdatadir wayland-protocols)
 WAYLAND_SCANNER=$(shell pkg-config --variable=wayland_scanner wayland-scanner)
 LIBS=\
@@ -5,8 +7,8 @@ LIBS=\
 	 $(shell pkg-config --cflags --libs wayland-server) \
 	 $(shell pkg-config --cflags --libs xkbcommon)
 
-# Add -fPIC for position-independent code
-CFLAGS += -fPIC
+# Needed to create a dynamically-linked, shared library
+CFLAGS += -shared -dynamic -fPIC
 
 # Output file is now a shared library
 OUTPUT = libtinywl.so
@@ -20,15 +22,21 @@ xdg-shell-protocol.h:
 	$(WAYLAND_SCANNER) server-header \
 		$(WAYLAND_PROTOCOLS)/stable/xdg-shell/xdg-shell.xml $@
 
-$(OUTPUT): tinywl.c $(DEPS)
-	$(CC) $(CFLAGS) -shared \
-		-g -Werror -I. \
+TinyWL.hs.o:
+	$(CC) $(CFLAGS) \
+		-o $@ TinyWL.hs $(LIBS)
+
+$(OUTPUT): TinyWL.hs.o $(DEPS)
+	$(CC) $(CFLAGS) \
+		-flink-rts \
+		-c -g -Werror -I. \
 		-DWLR_USE_UNSTABLE \
-		-o $@ $< \
+		-o $@ tinywl.c TinyWL.hs \
 		$(LIBS)
 
 clean:
-	rm -f $(OUTPUT) xdg-shell-protocol.h xdg-shell-protocol.c
+	rm -f $(OUTPUT) *.o *.hi *_stub.h xdg-shell-protocol.h \
+		xdg-shell-protocol.c
 
 .DEFAULT_GOAL=$(OUTPUT)
 .PHONY: clean
