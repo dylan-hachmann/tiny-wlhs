@@ -22,16 +22,12 @@ xdg-shell-protocol.h:
 	$(WAYLAND_SCANNER) server-header \
 		$(WAYLAND_PROTOCOLS)/stable/xdg-shell/xdg-shell.xml $@
 
-TinyWL.hs.o:
-	$(CC) $(CFLAGS) \
-		-o $@ TinyWL.hs $(LIBS)
-
-$(OUTPUT): TinyWL.hs.o $(DEPS)
+$(OUTPUT): $(DEPS)
 	$(CC) $(CFLAGS) \
 		-flink-rts \
 		-c -g -Werror -I. \
 		-DWLR_USE_UNSTABLE \
-		-o $@ tinywl.c TinyWL.hs \
+		-o $@ TinyWL.hs tinywl.c \
 		$(LIBS)
 
 clean:
