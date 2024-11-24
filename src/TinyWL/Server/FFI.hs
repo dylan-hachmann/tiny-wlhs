@@ -1,5 +1,4 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
-{-# LANGUAGE CApiFFI #-}
 
 module TinyWL.Server.FFI where
 
