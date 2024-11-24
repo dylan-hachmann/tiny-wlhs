@@ -21,8 +21,8 @@ foreign import ccall "hs_cycle_window_next" cycleWindowNext :: Ptr TinyWLServer 
    * This function assumes Alt is held down.
 -}
 {-
-FIXME: foreign import doesn't seem to be working at the moment; pass
-in the values directly for now
+FIXME: foreign import doesn't seem to be working at the moment; write
+out the keysym values directly for now
 -}
 foreign export ccall "handle_keybinding" handleKeybinding :: Ptr TinyWLServer -> CUInt -> CBool
 handleKeybinding server key = case key of
