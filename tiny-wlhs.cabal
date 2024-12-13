@@ -18,6 +18,7 @@ executable tiny-wlhs
     import:           warnings
     main-is:          ExampleCompositor.hs
     other-modules:    TinyWL.Server.FFI
+                 ,    TinyWL.Server.Keybinds
                  ,    TinyWL.Server.Server
                  ,    TinyWL.Server.Types
                  ,    TinyWL.Compositor.Compositor
@@ -32,11 +33,12 @@ executable tiny-wlhs
     
     -- Add these lines for FFI support
     default-extensions:       ForeignFunctionInterface
-    extra-libraries:  tinywl xkbcommon
-    extra-lib-dirs:   tinywl
+    extra-libraries:  xkbcommon
     
     -- If you need to specify include directories
     include-dirs:     tinywl
+    c-sources:        tinywl/tinywl.c
+    cc-options:       -DWLR_USE_UNSTABLE
     
     -- Additional GHC options for linking
     ghc-options:      -threaded -rtsopts -with-rtsopts=-N

@@ -1,7 +1,7 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# LANGUAGE CApiFFI #-}
 
-module TinyWL where
+module TinyWL.Server.Keybinds where
 import Foreign.Ptr
 import Foreign.C.Types
 

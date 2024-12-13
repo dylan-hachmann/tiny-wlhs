@@ -34,5 +34,5 @@ clean:
 	rm -f $(OUTPUT) *.o *.hi *_stub.h xdg-shell-protocol.h \
 		xdg-shell-protocol.c
 
-.DEFAULT_GOAL=$(OUTPUT)
+.DEFAULT_GOAL=xdg-shell-protocol.h
 .PHONY: clean
