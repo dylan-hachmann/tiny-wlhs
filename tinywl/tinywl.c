@@ -26,6 +26,7 @@
 #include <wlr/util/log.h>
 #include <xkbcommon/xkbcommon.h>
 #include "TinyWL/Server/Keybinds_stub.h"
+#include "TinyWL/Server/Cursor_stub.h"
 
 /* For brevity's sake, struct members are annotated where they are used. */
 enum tinywl_cursor_mode {
@@ -361,12 +362,41 @@ static void reset_cursor_mode(struct tinywl_server *server) {
   server->grabbed_toplevel = NULL;
 }
 
-static void process_cursor_move(struct tinywl_server *server, uint32_t time) {
-  /* Move the grabbed toplevel to the new position. */
-  struct tinywl_toplevel *toplevel = server->grabbed_toplevel;
-  wlr_scene_node_set_position(&toplevel->scene_tree->node,
-                              server->cursor->x - server->grab_x,
-                              server->cursor->y - server->grab_y);
+struct tinywl_toplevel *hs_get_grabbed_toplevel(struct tinywl_server *server) {
+  return server->grabbed_toplevel;
+}
+
+struct wlr_scene_tree *hs_get_scene_tree(struct tinywl_toplevel *toplevel) {
+  return toplevel->scene_tree;
+}
+
+struct wlr_scene_node *hs_get_node_ptr(struct wlr_scene_tree *tree) {
+  return &tree->node;
+}
+
+
+struct wlr_cursor *hs_get_cursor(struct tinywl_server *server) {
+  return server->cursor;
+}
+
+double hs_get_x_from_cursor(struct wlr_cursor *cursor) {
+  return cursor->x;
+}
+
+double hs_get_y_from_cursor(struct wlr_cursor *cursor) {
+  return cursor->y;
+}
+
+double hs_get_grab_x(struct tinywl_server *server) {
+  return server->grab_x;
+}
+
+double hs_get_grab_y(struct tinywl_server *server) {
+  return server->grab_y;
+}
+
+int hs_double_to_int(double x) {
+  return x;
 }
 
 static void process_cursor_resize(struct tinywl_server *server, uint32_t time) {

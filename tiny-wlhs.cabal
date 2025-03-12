@@ -20,6 +20,7 @@ executable tiny-wlhs
     other-modules:    TinyWL.Server.FFI
                  ,    TinyWL.Server.Keybinds
                  ,    TinyWL.Server.Server
+                 ,    TinyWL.Server.Cursor
                  ,    TinyWL.Server.Types
                  ,    TinyWL.Compositor.Compositor
                  ,    TinyWL.Compositor.FFI
